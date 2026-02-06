@@ -12,20 +12,26 @@
     body {
       margin: 0;
       height: 100vh;
-      background: #fdecef;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+
+      background-image: url("https://i.guim.co.uk/img/media/bdf23d7b1bbb200cf72ae0c22f051bf926445b20/1_0_5075_3046/master/5075.jpg?width=1200&quality=85&auto=format&fit=max&s=ac151f409f10e33d229636a09d1a4566");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .container {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9); /* semi-transparent so background shows through */
       padding: 30px;
       border-radius: 16px;
       width: 320px;
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       position: relative;
+      z-index: 1;
     }
 
     img {
@@ -40,11 +46,11 @@
 
     .buttons {
       position: relative;
-      height: 60px;
+      height: 150px;
     }
 
     button {
-      padding: 10px 20px;
+      padding: 15px 25px;
       border-radius: 20px;
       border: none;
       cursor: pointer;
@@ -55,12 +61,13 @@
     .yes-btn {
       background: #ff6f91;
       color: white;	
+      left: 120px;
     }
 
     .no-btn {
       background: #eee;
       position: absolute;
-      left: 140px;
+      right: 10px;
       top: 0;
     }
 
@@ -71,56 +78,94 @@
     .result h2 {
       color: #ff6f91;
     }
+
+    /* Heart animation */
+    .heart {
+      position: fixed;
+      font-size: 20px;
+      color: #ff6f91;
+      animation: floatUp 5s linear forwards;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px) scale(1.5);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <div class="container" id="questionBox">
-    <img src="https://media.tenor.com/5vY5XkzvW7cAAAAi/bear-love.gif" alt="cute bear">
-    <h2>Do you love me?</h2>
+  <div class="card bg-dark text-white">
+    <div class="container" id="questionBox">
+      <img src="https://media.tenor.com/5vY5XkzvW7cAAAAi/bear-love.gif" alt="cute bear">
+      <h2>Do you love me?</h2>
 
-    <div class="buttons">
-      <button class="yes-btn" onclick="sayYes()">Yes</button>
-      <button class="no-btn" id="noBtn">No</button>
+      <div class="buttons">
+        <button class="yes-btn" onclick="sayYes()">Yes</button>
+        <button class="no-btn" id="noBtn">No</button>
+      </div>
+    </div>
+
+    <div class="container result" id="resultBox">
+      <img src="https://media.tenor.com/ZhU9F1lq7AIAAAAi/love.gif" alt="love">
+      <h2>I like you! 💖</h2>
     </div>
   </div>
 
-  <div class="container result" id="resultBox">
-    <img src="https://media.tenor.com/ZhU9F1lq7AIAAAAi/love.gif" alt="love">
-    <h2>I like you Rosie! 💖</h2>
-  </div>
-
   <script>
-  const noBtn = document.getElementById("noBtn");
+    const noBtn = document.getElementById("noBtn");
 
-  function moveNoButton() {
-    const container = document.querySelector(".container");
-    const rect = container.getBoundingClientRect();
+    function moveNoButton() {
+      const container = document.querySelector(".container");
+      const rect = container.getBoundingClientRect();
 
-    const maxX = rect.width - noBtn.offsetWidth;
-    const maxY = rect.height - noBtn.offsetHeight - 20;
+      const maxX = rect.width - noBtn.offsetWidth;
+      const maxY = rect.height - noBtn.offsetHeight - 50;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
 
-  // Desktop: runs away before click
-  noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
 
-  // Mobile: runs away on touch
-  noBtn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    moveNoButton();
-  });
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.fontSize = (10 + Math.random() * 20) + "px";
+      document.body.appendChild(heart);
 
-  function sayYes() {
-    document.getElementById("questionBox").style.display = "none";
-    document.getElementById("resultBox").style.display = "block";
-  }
-</script>
+      setTimeout(() => {
+        heart.remove();
+      }, 2000);
+    }
+
+    function sayYes() {
+      const heartInterval = setInterval(createHeart, 100);
+      setTimeout(() => clearInterval(heartInterval), 2000);
+
+      setTimeout(() => {
+        document.getElementById("questionBox").style.display = "none";
+        document.getElementById("resultBox").style.display = "block";
+      }, 200);
+    }
+  </script>
 
 </body>
 </html>
