@@ -54,7 +54,7 @@
 
     .yes-btn {
       background: #ff6f91;
-      color: white;
+      color: white;	
     }
 
     .no-btn {
@@ -91,20 +91,36 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
+  const noBtn = document.getElementById("noBtn");
 
-    noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * 200;
-      const y = Math.random() * 40;
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    });
+  function moveNoButton() {
+    const container = document.querySelector(".container");
+    const rect = container.getBoundingClientRect();
 
-    function sayYes() {
-      document.getElementById("questionBox").style.display = "none";
-      document.getElementById("resultBox").style.display = "block";
-    }
-  </script>
+    const maxX = rect.width - noBtn.offsetWidth;
+    const maxY = rect.height - noBtn.offsetHeight - 20;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  // Desktop: runs away before click
+  noBtn.addEventListener("mouseenter", moveNoButton);
+
+  // Mobile: runs away on touch
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  function sayYes() {
+    document.getElementById("questionBox").style.display = "none";
+    document.getElementById("resultBox").style.display = "block";
+  }
+</script>
 
 </body>
 </html>
