@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Do You Love Me?</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #fdecef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    img {
+      width: 120px;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .buttons {
+      position: relative;
+      height: 60px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .yes-btn {
+      background: #ff6f91;
+      color: white;
+    }
+
+    .no-btn {
+      background: #eee;
+      position: absolute;
+      left: 140px;
+      top: 0;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result h2 {
+      color: #ff6f91;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="questionBox">
+    <img src="https://media.tenor.com/5vY5XkzvW7cAAAAi/bear-love.gif" alt="cute bear">
+    <h2>Do you love me?</h2>
+
+    <div class="buttons">
+      <button class="yes-btn" onclick="sayYes()">Yes</button>
+      <button class="no-btn" id="noBtn">No</button>
+    </div>
+  </div>
+
+  <div class="container result" id="resultBox">
+    <img src="https://media.tenor.com/ZhU9F1lq7AIAAAAi/love.gif" alt="love">
+    <h2>I knew it 💖</h2>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * 200;
+      const y = Math.random() * 40;
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    function sayYes() {
+      document.getElementById("questionBox").style.display = "none";
+      document.getElementById("resultBox").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
